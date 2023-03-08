@@ -8,7 +8,7 @@ Terraform module which creates multiple sqs with different configurations and wi
 
 ```hcl
 module "sqs" {
-  source = "../../"
+  source = "github.com/zahornyak/multiple_sqs"
 
   sqs_queues = [
     {
@@ -35,7 +35,7 @@ module "sqs" {
 
 ```hcl
 module "sqs" {
-  source = "../../"
+  source = "github.com/zahornyak/multiple_sqs"
 
   sqs_queues = [
     {
@@ -56,7 +56,7 @@ module "sqs" {
 
 ```hcl
 module "sqs" {
-  source = "../../"
+  source = "github.com/zahornyak/multiple_sqs"
 
   sqs_queues = [
     {
