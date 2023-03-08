@@ -26,7 +26,7 @@ module "sqs" {
         visibility_timeout_seconds                  = 300
       }
     }
-    ]
+  ]
 }
 ```
 
