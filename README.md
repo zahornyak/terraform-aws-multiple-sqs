@@ -21,7 +21,6 @@ module "sqs" {
       create_dead_letter = true
       redrive_policy = {
         max_receive_count = 10
-        # name of dead letter queue
         dead_letter_queue                           = "queue1_dead_letter"
         dead_letter_queue_message_retention_seconds = 60
         visibility_timeout_seconds                  = 300
