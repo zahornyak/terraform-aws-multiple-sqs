@@ -12,19 +12,14 @@ module "sqs" {
 
   sqs_queues = [
     {
-      name                       = "queue1"
-      delay_seconds              = 0
-      max_message_size           = 262144
-      message_retention_seconds  = 345600
-      receive_wait_time_seconds  = 20
-      visibility_timeout_seconds = 300
-      create_dead_letter = true
-      redrive_policy = {
-        max_receive_count = 10
-        dead_letter_queue                           = "queue1_dead_letter"
-        dead_letter_queue_message_retention_seconds = 60
-        visibility_timeout_seconds                  = 300
-      }
+      name                       = "queue2"
+      delay_seconds              = 10
+      max_message_size           = 65536
+      message_retention_seconds  = 86400
+      receive_wait_time_seconds  = 5
+      visibility_timeout_seconds = 30
+      redrive_policy     = null
+      create_dead_letter = false
     }
   ]
 }
@@ -39,14 +34,19 @@ module "sqs" {
 
   sqs_queues = [
     {
-      name                       = "queue2"
-      delay_seconds              = 10
-      max_message_size           = 65536
-      message_retention_seconds  = 86400
-      receive_wait_time_seconds  = 5
-      visibility_timeout_seconds = 30
-      redrive_policy     = null
-      create_dead_letter = false
+      name                       = "queue1"
+      delay_seconds              = 0
+      max_message_size           = 262144
+      message_retention_seconds  = 345600
+      receive_wait_time_seconds  = 20
+      visibility_timeout_seconds = 300
+      create_dead_letter = true
+      redrive_policy = {
+        max_receive_count = 10
+        dead_letter_queue                           = "queue1_dead_letter"
+        dead_letter_queue_message_retention_seconds = 60
+        visibility_timeout_seconds                  = 300
+      }
     }
   ]
 }
