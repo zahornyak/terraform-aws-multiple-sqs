@@ -13,14 +13,13 @@ module "sqs" {
 
   sqs_queues = [
     {
-      name                       = "queue2"
+      name = "queue2"
     }
   ]
 }
 ```
 
-
-### Deadletter single SQS
+### Multiple simple sqs's
 
 ```hcl
 module "sqs" {
@@ -28,42 +27,6 @@ module "sqs" {
   version = "0.0.2"
 
   sqs_queues = [
-    {
-      name                       = "queue1"
-      create_dead_letter = true
-      redrive_policy = {
-        dead_letter_queue                           = "queue1_dead_letter"
-      }
-    }
-  ]
-}
-```
-
-### Multiple simple and deadletter sqs's
-
-```hcl
-module "sqs" {
-  source  = "zahornyak/multiple-sqs/aws"
-  version = "0.0.2"
-
-  sqs_queues = [
-    {
-      name                       = "queue1"
-      delay_seconds              = 0
-      max_message_size           = 262144
-      message_retention_seconds  = 345600
-      receive_wait_time_seconds  = 20
-      visibility_timeout_seconds = 300
-      #creates 2 queue: main queue and deadletter queue + connecting them
-      create_dead_letter = true
-      redrive_policy = {
-        max_receive_count = 10
-        # name for dead letter queue
-        dead_letter_queue                           = "queue1_dead_letter"
-        dead_letter_queue_message_retention_seconds = 60
-        visibility_timeout_seconds                  = 300
-      }
-    },
     {
       name                       = "queue2"
       delay_seconds              = 10
@@ -71,9 +34,40 @@ module "sqs" {
       message_retention_seconds  = 86400
       receive_wait_time_seconds  = 5
       visibility_timeout_seconds = 30
-      # set redrive_policy to null and create_dead_letter to false  if you dont need to create dead letter configuration
-      redrive_policy     = null
-      create_dead_letter = false
+    },
+    {
+      name = "sqs"
+    },
+    {
+      name       = "sqs.fifo"
+      queue_type = "fifo"
+    },
+    {
+      name                  = "example_hight_throughput.fifo"
+      queue_type            = "fifo"
+      deduplication_scope   = "messageGroup"
+      fifo_throughput_limit = "perMessageGroupId"
+    }
+  ]
+}
+```
+
+
+### Deadletter single SQS
+### BETA. Works only if index is 0
+
+```hcl
+module "sqs" {
+  source  = "zahornyak/multiple-sqs/aws"
+  version = "0.0.2"
+
+  sqs_queues = [
+    {
+      name               = "queue1"
+      create_dead_letter = true
+      redrive_policy = {
+        dead_letter_queue = "queue1_dead_letter"
+      }
     }
   ]
 }

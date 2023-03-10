@@ -22,24 +22,24 @@ module "sqs" {
         dead_letter_queue_visibility_timeout_seconds = 300
       }
     },
-    # {
-    #   name                       = "queue2"
-    #   delay_seconds              = 10
-    #   max_message_size           = 65536
-    #   message_retention_seconds  = 86400
-    #   receive_wait_time_seconds  = 5
-    #   visibility_timeout_seconds = 30
-    # },
-    # {
-    #   name       = "example.fifo"
-    #   queue_type = "fifo"
-    # },
-    # {
-    #   name                  = "example_hight_throughput.fifo"
-    #   queue_type            = "fifo"
-    #   deduplication_scope   = "messageGroup"
-    #   fifo_throughput_limit = "perMessageGroupId"
-    # },
+    {
+      name                       = "queue2"
+      delay_seconds              = 10
+      max_message_size           = 65536
+      message_retention_seconds  = 86400
+      receive_wait_time_seconds  = 5
+      visibility_timeout_seconds = 30
+    },
+    {
+      name       = "example.fifo"
+      queue_type = "fifo"
+    },
+    {
+      name                  = "example_hight_throughput.fifo"
+      queue_type            = "fifo"
+      deduplication_scope   = "messageGroup"
+      fifo_throughput_limit = "perMessageGroupId"
+    },
     # {
     #   name               = "queue1"
     #   create_dead_letter = true
@@ -52,4 +52,5 @@ module "sqs" {
     # }
   ]
 }
-
+### Deadletter single SQS
+### BETA. Works only if index is 0

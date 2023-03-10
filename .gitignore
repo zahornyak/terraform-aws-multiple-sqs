@@ -13,3 +13,6 @@
 **/.terraform
 **/.terraform.lock.hcl
 **/provider.tf
+
+
+**/*.sh
