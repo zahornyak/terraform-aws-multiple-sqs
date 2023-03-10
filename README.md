@@ -9,18 +9,11 @@ Terraform module which creates multiple sqs with different configurations and wi
 ```hcl
 module "sqs" {
   source  = "zahornyak/multiple-sqs/aws"
-  version = "0.0.2"
+  version = "0.0.3"
 
   sqs_queues = [
     {
       name                       = "queue2"
-      delay_seconds              = 10
-      max_message_size           = 65536
-      message_retention_seconds  = 86400
-      receive_wait_time_seconds  = 5
-      visibility_timeout_seconds = 30
-      redrive_policy     = null
-      create_dead_letter = false
     }
   ]
 }
@@ -37,17 +30,9 @@ module "sqs" {
   sqs_queues = [
     {
       name                       = "queue1"
-      delay_seconds              = 0
-      max_message_size           = 262144
-      message_retention_seconds  = 345600
-      receive_wait_time_seconds  = 20
-      visibility_timeout_seconds = 300
       create_dead_letter = true
       redrive_policy = {
-        max_receive_count = 10
         dead_letter_queue                           = "queue1_dead_letter"
-        dead_letter_queue_message_retention_seconds = 60
-        visibility_timeout_seconds                  = 300
       }
     }
   ]
@@ -73,7 +58,7 @@ module "sqs" {
       create_dead_letter = true
       redrive_policy = {
         max_receive_count = 10
-        # name of dead letter queue
+        # name for dead letter queue
         dead_letter_queue                           = "queue1_dead_letter"
         dead_letter_queue_message_retention_seconds = 60
         visibility_timeout_seconds                  = 300
@@ -127,7 +112,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_sqs_queues"></a> [sqs\_queues](#input\_sqs\_queues) | creating list of lots queue (deadletter or not) | <pre>list(object({<br>    name                       = string<br>    delay_seconds              = number<br>    max_message_size           = number<br>    message_retention_seconds  = number<br>    receive_wait_time_seconds  = number<br>    visibility_timeout_seconds = number<br>    create_dead_letter         = bool<br>    redrive_policy = object({<br>      max_receive_count                           = number<br>      dead_letter_queue                           = string<br>      dead_letter_queue_message_retention_seconds = number<br>      visibility_timeout_seconds                  = number<br>    })<br>  }))</pre> | `[]` | no |
+| <a name="input_sqs_queues"></a> [sqs\_queues](#input\_sqs\_queues) | creating list of lots queue (deadletter or not) | <pre>list(object({<br>    name                       = string<br>    delay_seconds              = optional(number)<br>    max_message_size           = optional(number)<br>    message_retention_seconds  = optional(number)<br>    receive_wait_time_seconds  = optional(number)<br>    visibility_timeout_seconds = optional(number)<br>    create_dead_letter         = optional(bool)<br>    redrive_policy = optional(object({<br>      max_receive_count                            = number<br>      dead_letter_queue_name                       = string<br>      dead_letter_queue_message_retention_seconds  = number<br>      dead_letter_queue_visibility_timeout_seconds = number<br>    }))<br>    queue_type            = optional(string)<br>    deduplication_scope   = optional(string)<br>    fifo_throughput_limit = optional(string)<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 

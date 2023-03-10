@@ -12,3 +12,4 @@
 .terraform
 **/.terraform
 **/.terraform.lock.hcl
+**/provider.tf
