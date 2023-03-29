@@ -4,97 +4,39 @@ Terraform module which creates multiple sqs with different configurations and wi
 
 ## Usage
 
-### Simple single SQS
+### Use any possible by module sqs
 
 ```hcl
-module "sqs" {
+module "multiple_sqs" {
   source  = "zahornyak/multiple-sqs/aws"
-  version = "0.0.2"
+  version = "0.0.3"
 
-  sqs_queues = [
-    {
-      name                       = "queue2"
-      delay_seconds              = 10
-      max_message_size           = 65536
-      message_retention_seconds  = 86400
-      receive_wait_time_seconds  = 5
-      visibility_timeout_seconds = 30
-      redrive_policy     = null
-      create_dead_letter = false
+  sqs_queues = {
+
+    simple_sqs = {
+      name = "simple"
     }
-  ]
+
+    deadletter_sqs = {
+      name = "deadletter_sqs"
+      create_deadletter = true
+      maxReceiveCount = 100
+    }
+
+    example_all_functions = {
+      name = "all"
+      delay_seconds = 60
+      max_message_size = 100
+      message_retention_seconds = 60
+      receive_wait_time_seconds = 60
+      visibility_timeout_seconds = 70
+
+      create_deadletter = true
+      maxReceiveCount = 100
+    }
+  }
 }
 ```
-
-
-### Deadletter single SQS
-
-```hcl
-module "sqs" {
-  source  = "zahornyak/multiple-sqs/aws"
-  version = "0.0.2"
-
-  sqs_queues = [
-    {
-      name                       = "queue1"
-      delay_seconds              = 0
-      max_message_size           = 262144
-      message_retention_seconds  = 345600
-      receive_wait_time_seconds  = 20
-      visibility_timeout_seconds = 300
-      create_dead_letter = true
-      redrive_policy = {
-        max_receive_count = 10
-        dead_letter_queue                           = "queue1_dead_letter"
-        dead_letter_queue_message_retention_seconds = 60
-        visibility_timeout_seconds                  = 300
-      }
-    }
-  ]
-}
-```
-
-### Multiple simple and deadletter sqs's
-
-```hcl
-module "sqs" {
-  source  = "zahornyak/multiple-sqs/aws"
-  version = "0.0.2"
-
-  sqs_queues = [
-    {
-      name                       = "queue1"
-      delay_seconds              = 0
-      max_message_size           = 262144
-      message_retention_seconds  = 345600
-      receive_wait_time_seconds  = 20
-      visibility_timeout_seconds = 300
-      #creates 2 queue: main queue and deadletter queue + connecting them
-      create_dead_letter = true
-      redrive_policy = {
-        max_receive_count = 10
-        # name of dead letter queue
-        dead_letter_queue                           = "queue1_dead_letter"
-        dead_letter_queue_message_retention_seconds = 60
-        visibility_timeout_seconds                  = 300
-      }
-    },
-    {
-      name                       = "queue2"
-      delay_seconds              = 10
-      max_message_size           = 65536
-      message_retention_seconds  = 86400
-      receive_wait_time_seconds  = 5
-      visibility_timeout_seconds = 30
-      # set redrive_policy to null and create_dead_letter to false  if you dont need to create dead letter configuration
-      redrive_policy     = null
-      create_dead_letter = false
-    }
-  ]
-}
-```
-
-
 
 
 
@@ -127,7 +69,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_sqs_queues"></a> [sqs\_queues](#input\_sqs\_queues) | creating list of lots queue (deadletter or not) | <pre>list(object({<br>    name                       = string<br>    delay_seconds              = number<br>    max_message_size           = number<br>    message_retention_seconds  = number<br>    receive_wait_time_seconds  = number<br>    visibility_timeout_seconds = number<br>    create_dead_letter         = bool<br>    redrive_policy = object({<br>      max_receive_count                           = number<br>      dead_letter_queue                           = string<br>      dead_letter_queue_message_retention_seconds = number<br>      visibility_timeout_seconds                  = number<br>    })<br>  }))</pre> | `[]` | no |
+| <a name="input_sqs_queues"></a> [sqs\_queues](#input\_sqs\_queues) | creating list of lots queue (deadletter or not) | `any` | `{}` | no |
 
 ## Outputs
 
