@@ -16,6 +16,10 @@ module "sqs" {
     simple_sqs = {
       name = "simple"
     }
+    
+    foo = {
+      name = "bar"
+    }
 
     deadletter_sqs = {
       name              = "deadletter_sqs"
