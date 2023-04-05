@@ -3,6 +3,7 @@
 
 
 Terraform module which creates multiple sqs with different configurations and with ability to create additional dead-letter configuration.
+Especially comfortable with Terragrunt.
 
 ## Usage
 
