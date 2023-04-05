@@ -1,4 +1,6 @@
 # AWS multiple SQS creation Terraform module 
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/zahornyak/terraform-aws-multiple-sqs)
+
 
 Terraform module which creates multiple sqs with different configurations and with ability to create additional dead-letter configuration.
 
